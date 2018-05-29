@@ -37,7 +37,6 @@
         <q-item-main label="REQUESTS" sublabel="Index of all requests" />
         <q-chip color="primary">3</q-chip>
       </q-item>
-      <q-list-header>Proposals</q-list-header>
       <q-item to="/proposals">
         <q-item-side icon="assignment turned in" />
         <q-item-main label="POROPOSALS" sublabel="Index of all proposals" />
@@ -45,15 +44,14 @@
       </q-item>
       <q-item to="/createproposal">
         <q-item-side icon="create" />
-        <q-item-main label="CREATE PROPOSAL" sublabel="Create and submit a proposal" />
+        <q-item-main label="CREATE" sublabel="Create and submit a proposal or request" />
       </q-item>
-      <q-list-header>Custodians</q-list-header>
       <q-item to="/custodians">
         <q-item-side icon="assignment ind" />
         <q-item-main label="CUSTODIANS" sublabel="Index of all custodians and candidates" />
       </q-item>
-      <q-list-header>Account</q-list-header>
-      <q-item v-if="getAccount.account_name" to="/myaccount">
+      <!--v-if="getAccount.account_name"-->
+      <q-item to="/myaccount">
         <q-item-side icon="perm identity" />
         <q-item-main label="ACCOUNT" sublabel="Change account info and settings" />
       </q-item>

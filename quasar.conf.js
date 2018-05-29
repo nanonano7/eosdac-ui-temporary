@@ -97,7 +97,10 @@ module.exports = function (ctx) {
         'QSlideTransition',
         'QAlert',
         'QPageSticky',
-        'QPopover'
+        'QPopover',
+        'QDatetimePicker',
+        'QTooltip',
+        'QCollapsible'
       ],
       directives: [
         'Ripple',

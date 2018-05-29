@@ -12,7 +12,7 @@
           <div v-if="getCurrentEndpoint">
           <q-item dark>
             <q-item-side>
-              <q-icon v-if="!connError" color="green" name="done" size="2rem"/>
+              <q-icon v-if="getCurrentEndpoint.lastConnectionStatus === 0" color="green" name="done" size="2rem"/>
               <q-icon v-else color="warning" name="warning" size="2rem"/>
             </q-item-side>
             <q-item-main :label="getCurrentEndpoint.httpEndpoint">

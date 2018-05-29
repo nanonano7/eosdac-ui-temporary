@@ -5,7 +5,7 @@
     <q-tab color="primary" slot="title" name="tab-2">Inactive</q-tab>
     <q-tab-pane name="tab-1">
       <router-link to="/proposal" tag="div" cursor-pointer>
-      <q-card class="q-mb-sm" style="cursor: pointer;">
+      <q-card class="q-mb-sm cursor-pointer">
         <q-card-title class="text-primary wrap pr-title">
           <span class="q-pr-sm q-display-1 float-left on-left brdr text-positive" detail icon="done">87%</span>
           <div class="q-headline">Title of proposal lmao lmao lmao and other important stuff</div>

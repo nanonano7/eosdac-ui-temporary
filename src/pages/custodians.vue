@@ -7,7 +7,8 @@
   <q-tab-pane name="tab-1">
     <div class="row">
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-        <q-card class="q-ma-sm">
+        <router-link to="/account" tag="div">
+        <q-card class="q-ma-sm cursor-pointer">
           <q-card-media>
             <img src="~assets/profile-placeholder.png">
             <q-card-title slot="overlay">
@@ -16,6 +17,7 @@
             </q-card-title>
           </q-card-media>
         </q-card>
+      </router-link>
       </div>
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
         <q-card class="q-ma-sm">

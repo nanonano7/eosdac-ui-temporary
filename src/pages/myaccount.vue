@@ -12,7 +12,7 @@
             <q-item>
               <q-item-main label="Custodian" />
               <q-item-side right>
-                YES
+                NO
               </q-item-side>
             </q-item>
             <q-item>
@@ -24,6 +24,7 @@
           </q-list>
         </q-card-main>
         <q-card-actions>
+          <q-btn color="primary" icon="assignment ind" label="Become a Custodian" />
         </q-card-actions>
       </q-card>
     </div>

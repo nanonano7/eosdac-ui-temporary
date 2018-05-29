@@ -10,6 +10,7 @@ export default [
       { path: 'proposals', component: () => import('pages/proposals') },
       { path: 'createproposal', component: () => import('pages/createproposal') },
       { path: 'custodians', component: () => import('pages/custodians') },
+      { path: 'account', component: () => import('pages/account') },
       { path: 'myaccount', component: () => import('pages/myaccount') },
       { path: 'wallet', component: () => import('pages/wallet') },
       { path: 'settings', component: () => import('pages/settings') },

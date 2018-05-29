@@ -1,51 +1,52 @@
 <template>
   <q-page padding>
     <div class="row">
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-5">
         <q-card class="q-ma-sm">
-          <q-list dense separator no-border>
-            <q-item>
-              <q-item-side icon="account_circle" />
-              <q-item-main label="nanonano7" />
-            </q-item>
-            <q-item>
-              <q-item-side icon="comment" />
-              <q-item-main label="17 Comments" />
-            </q-item>
-            <q-item>
-              <q-item-side icon="event note" />
-              <!--<q-item-main :label="Vote Start: {{ time | moment("YYYY/MM/DD") }} (~{{ time | moment("from") }})" />-->
-              Vote Start: {{ time | moment("YYYY/MM/DD") }} (~{{ time | moment("from") }})
-            </q-item>
-            <q-item>
-              <q-item-side icon="event note" />
-              <!--<q-item-main :label="Vote End: {{ time | moment("YYYY/MM/DD") }} (~{{ time | moment("from") }})" />-->
-            </q-item>
-            <q-item>
-              <q-item-side icon="comment" />
-              <q-item-main label="17 Comments" />
-            </q-item>
-          </q-list>
-        </q-card>
-
-        <q-card class="q-ma-sm">
-          <q-card-title>
-            Supporting Links
-          </q-card-title>
-          <q-list dense separator no-border>
-            <q-item>
-              <q-item-side icon="link" />
-              <q-item-main label="http://lol.lol" />
-            </q-item>
-          </q-list>
-        </q-card>
-
-        <q-card class="q-ma-sm">
-          lol
+          <q-list separator>
+        <q-item link>
+          <q-item-main label="Worker" />
+          <q-item-side right>
+            account.name
+          </q-item-side>
+        </q-item>
+        <q-item>
+          <q-item-main label="Start" />
+          <q-item-side right>
+            <p>{{showDate() | moment('YYYY-MM-DD hh:mm:ss A')}}</p>
+          <p>(~{{ showDate() | moment('from', 'now')}})</p>
+          </q-item-side>
+        </q-item>
+        <q-item>
+          <q-item-main label="Expire" />
+          <q-item-side right>
+            <p>{{showDate() | moment('YYYY-MM-DD hh:mm:ss A')}}</p>
+          <p>(~{{ showDate() | moment('from', 'now')}})</p>
+          </q-item-side>
+        </q-item>
+        <q-item>
+          <q-item-main label="Due date" />
+          <q-item-side right>
+            <p>{{showDate() | moment('YYYY-MM-DD hh:mm:ss A')}}</p>
+          <p>(~{{ showDate() | moment('from', 'now')}})</p>
+          </q-item-side>
+        </q-item>
+        <q-item link>
+          <q-item-main label="Arbitrator" />
+          <q-item-side right>
+            account.name
+          </q-item-side>
+        </q-item>
+        <q-item>
+          <q-item-main label="Payment amount" />
+          <q-item-side right>
+            3265.00154258 eosDAC
+          </q-item-side>
+        </q-item>
+      </q-list>
         </q-card>
       </div>
-
-      <div class="col-xs-12 col-sm-12 col-md-8">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-7">
     <q-card class="markdown-body q-ma-sm">
       <q-card-title>
     <h1 class="text-center proposal-title">Title of proposal lmao lmao lmao and other important stuff</h1>
@@ -69,6 +70,10 @@ export default {
     }
   },
   methods: {
+    showDate () {
+      let ts = Math.round((new Date()).getTime() / 1000)
+      return ts + 3000000
+    },
     loadData () {
       let md = new MarkdownIt()
       this.$axios.get('https://raw.githubusercontent.com/EOSIO/eosjs/master/README.md').then((response) => {

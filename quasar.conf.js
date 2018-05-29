@@ -96,7 +96,8 @@ module.exports = function (ctx) {
         'QKnob',
         'QSlideTransition',
         'QAlert',
-        'QPageSticky'
+        'QPageSticky',
+        'QPopover'
       ],
       directives: [
         'Ripple',

@@ -32,6 +32,11 @@
 
   <q-layout-drawer v-model="leftDrawerOpen" :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null">
     <q-list no-border link inset-delimiter>
+      <q-item to="/requests">
+        <q-item-side icon="assignment turned in" />
+        <q-item-main label="REQUESTS" sublabel="Index of all requests" />
+        <q-chip color="primary">3</q-chip>
+      </q-item>
       <q-list-header>Proposals</q-list-header>
       <q-item to="/proposals">
         <q-item-side icon="assignment turned in" />

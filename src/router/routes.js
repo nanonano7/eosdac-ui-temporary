@@ -5,6 +5,7 @@ export default [
     component: () => import('layouts/default'),
     children: [
       { path: '', component: () => import('pages/index') },
+      { path: 'requests', component: () => import('pages/requests') },
       { path: 'proposal', component: () => import('pages/proposal') },
       { path: 'proposals', component: () => import('pages/proposals') },
       { path: 'createproposal', component: () => import('pages/createproposal') },

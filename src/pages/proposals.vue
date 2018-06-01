@@ -80,10 +80,8 @@ Import and include the library when you configure Eos:
 
 <script>
 import MarkdownIt from 'markdown-it'
-import PercentageSlider from 'components/percentage-slider'
 export default {
   components: {
-    PercentageSlider
   },
   data () {
     return {

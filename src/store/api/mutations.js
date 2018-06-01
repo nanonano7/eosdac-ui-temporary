@@ -48,3 +48,12 @@ export const SCATTER_AVAILABLE = (state, scatter) => {
 export const SCATTER_UNAVAILABLE = (state) => {
   state.scatterAvailable = false
 }
+
+export const CHANGE_INTERVALS = (state, payload) => {
+  if (payload.checkIntervalMilSec && !isNaN(payload.checkIntervalMilSec)) {
+    state.checkIntervalMilSec = payload.checkIntervalMilSec
+  }
+  if (payload.connectionTimeoutMilSec && !isNaN(payload.connectionTimeoutMilSec)) {
+    state.connectionTimeoutMilSec = payload.connectionTimeoutMilSec
+  }
+}

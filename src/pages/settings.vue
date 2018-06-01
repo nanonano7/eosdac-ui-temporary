@@ -36,6 +36,40 @@
             </q-item>
           </q-list>
         </q-card-main>
+        <q-card class="q-pa-sm no-shadow">
+
+        <q-field
+          class="q-ma-sm"
+          label="Update interval"
+          :error="intervalError"
+          :error-label="intervalErrorText"
+          >
+          <span>{{connInterval}} seconds</span>
+          <q-slider
+          v-model="connInterval"
+          :min="1"
+          :max="300"
+          :step="1"
+        />
+        </q-field>
+        <q-field
+          class="q-ma-sm"
+          label="Connection timeout"
+          :error="timeoutError"
+          :error-label="timeoutErrorText"
+          >
+          <span>{{timeout}} seconds</span>
+          <q-slider
+          v-model="timeout"
+          :min="1"
+          :max="15"
+          :step="1"
+        />
+        </q-field>
+        <q-card-actions>
+          <q-btn @click="changeIntervals()" v-if="timeout !== getConnectionTimeout / 1000 || connInterval !== getConnectionInterval / 1000" color="primary" label="Update"/>
+        </q-card-actions>
+      </q-card>
         <LoadingSpinner :visible="loading" :text="loadingText" />
       </q-card>
     </div>
@@ -69,16 +103,27 @@ export default {
       connError: false,
       connErrorText: '',
       connErrorTextDetail: '',
-      connErrorIcon: null
+      connErrorIcon: null,
+      connInterval: 0,
+      intervalError: false,
+      intervalErrorText: '',
+      timeout: 0,
+      timeoutError: false,
+      timeoutErrorText: ''
     }
   },
   computed: {
     ...mapGetters({
       getCurrentEndpoint: 'api/getCurrentEndpoint',
-      getEndpoints: 'api/getEndpoints'
+      getEndpoints: 'api/getEndpoints',
+      getConnectionTimeout: 'api/getConnectionTimeout',
+      getConnectionInterval: 'api/getConnectionInterval'
     })
   },
   methods: {
+    changeIntervals () {
+      this.$store.commit('api/CHANGE_INTERVALS', {connectionTimeoutMilSec: this.timeout * 1000, checkIntervalMilSec: this.connInterval * 1000})
+    },
     clearendpointref () {
       this.$refs.endpointref.clear()
     },
@@ -122,6 +167,11 @@ export default {
       return new Date(ts).toISOString()
     }
   },
+  watch: {
+    timeout (val) {
+      this.timeout = Math.round(val)
+    }
+  },
   mounted () {
     this.$store.dispatch('api/pingAndGetInfo').then(() => {
       this.loading = false
@@ -147,6 +197,8 @@ export default {
         this.loading = false
       }
     })
+    this.timeout = this.getConnectionTimeout / 1000
+    this.connInterval = this.getConnectionInterval / 1000
   }
 }
 </script>

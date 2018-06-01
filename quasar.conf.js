@@ -100,7 +100,8 @@ module.exports = function (ctx) {
         'QPopover',
         'QDatetimePicker',
         'QTooltip',
-        'QCollapsible'
+        'QCollapsible',
+        'QBtnToggle'
       ],
       directives: [
         'Ripple',

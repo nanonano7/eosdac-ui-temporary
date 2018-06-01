@@ -1,6 +1,11 @@
 <template>
 <q-page padding>
   <div class="row justify-center">
+    <div class="col-xs-12">
+      <mavon-editor ref="editor" v-model="editorText" language="en" placeholder="Proposal main body" :toolbars="toolbars" class="create-markdown-body" />
+    </div>
+  </div>
+  <div class="row q-mt-sm">
     <div class="col-xs-6">
       <q-card flat class="q-mb-sm">
         <q-card-main>
@@ -49,11 +54,6 @@
         </q-field>
         </q-card-main>
       </q-card>
-    </div>
-  </div>
-  <div class="row justify-center">
-    <div class="col-xs-12">
-      <mavon-editor ref="editor" v-model="editorText" language="en" placeholder="Proposal main body" :toolbars="toolbars" class="create-markdown-body" />
     </div>
   </div>
 </q-page>

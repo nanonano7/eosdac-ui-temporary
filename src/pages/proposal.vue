@@ -3,6 +3,11 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-5">
         <q-card class="q-ma-sm">
+          <q-card-actions>
+            <q-btn size="lg" icon="done" label="Approve" color="positive"/>
+            <q-btn size="lg" icon="clear" label="Disapprove" color="negative"/>
+            <q-btn size="lg" label="Abstain" color="primary"/>
+          </q-card-actions>
           <q-list separator>
         <q-item link>
           <q-item-main label="Worker" />

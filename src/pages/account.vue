@@ -1,14 +1,18 @@
 <template>
   <q-page padding>
     <div class="row justify-center">
-      <div class="col-xs-12 col-md-4">
+      <div class="col-md-12 col-lg-12 col-xl-4">
         <q-card class="q-ma-sm">
-          <q-card-title class="text-primary">
-            <div class="q-title">//NAME</div>
-          </q-card-title>
           <q-card-main>
-            <img src="~assets/profile-placeholder.png" class="q-ma-sm" style="width:50%;margin-left: auto;margin-right: auto;display: block;">
             <q-list no-border>
+              <q-item>
+            <q-item-side>
+              <q-item-tile avatar>
+                <img src="~assets/profile-placeholder.png">
+              </q-item-tile>
+            </q-item-side>
+            <q-item-main class="q-title" label="Name" />
+          </q-item>
               <q-item multiline>
                 <q-item-main label="Bio" sublabel="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquam sapien vitae diam malesuada maximus in in nunc. In pulvinar, magna sit amet rutrum interdum, augue nunc vestibulum sem, a semper enim nisi vitae turpis. Praesent aliquam volutpat."/>
               </q-item>
@@ -36,7 +40,7 @@
           </q-card-actions>
         </q-card>
       </div>
-      <div class="col-xs-12">
+      <div class="col-md-12 col-xl-8">
         <q-tabs class="tab-tranp" align="center" no-pane-border>
           <q-tab color="primary" default slot="title" name="tab-1">Active Proposals</q-tab>
           <q-tab color="primary" slot="title" name="tab-2">Inactive Proposals</q-tab>

@@ -1,0 +1,83 @@
+{
+  "proposals": [{
+    "type": 1,
+    "id": 100,
+    "worker": "rob",
+    "title": "Requesting a service in exchange for tokens",
+    "desc": "eosDAC-ui temporary repository\r\n\r\n**1. Install Vue-Cli**\r\n```\r\nyarn global add vue-cli\r\nor:\r\nnpm install -g vue-cli\r\n```\r\n\r\n**2. Install Quasar-Cli**\r\n\r\n```\r\n# Node.js >= 8.9.0 is required.\r\nyarn global add quasar-cli\r\nor:\r\nnpm install -g quasar-cli\r\n```\r\n**3. Clone Repo**\r\n```\r\ngit clone https:\/\/github.com\/nanonano7\/eosdac-ui-temporary.git\r\n```\r\n**4. Install modules**\r\n```\r\nyarn install\r\nor:\r\nnpm install\r\n```\r\n**5. Run dev server**\r\n```\r\nquasar dev\r\n```\r\n[Quasar Docs](https:\/\/quasar-framework.org\/guide\/index.html)",
+    "start": "2018-06-28T05:41:52",
+    "expire": "2018-08-28T05:41:52",
+    "due_date": "2018-07-28T05:41:52",
+    "arbitrator": "alice",
+    "parent": 0,
+    "payment_amount": "200",
+    "recurring": true
+  }, {
+    "type": 0,
+    "id": 101,
+    "worker": "michael",
+    "title": "I am offering a service in exchange for tokens",
+    "desc": "eosDAC-ui temporary repository\r\n\r\n**1. Install Vue-Cli**\r\n```\r\nyarn global add vue-cli\r\nor:\r\nnpm install -g vue-cli\r\n```\r\n\r\n**2. Install Quasar-Cli**\r\n\r\n```\r\n# Node.js >= 8.9.0 is required.\r\nyarn global add quasar-cli\r\nor:\r\nnpm install -g quasar-cli\r\n```\r\n**3. Clone Repo**\r\n```\r\ngit clone https:\/\/github.com\/nanonano7\/eosdac-ui-temporary.git\r\n```\r\n**4. Install modules**\r\n```\r\nyarn install\r\nor:\r\nnpm install\r\n```\r\n**5. Run dev server**\r\n```\r\nquasar dev\r\n```\r\n[Quasar Docs](https:\/\/quasar-framework.org\/guide\/index.html)",
+    "start": "2018-06-28T05:41:52",
+    "expire": "2019-08-28T05:41:52",
+    "due_date": "2018-07-28T05:41:52",
+    "arbitrator": "rob",
+    "parent": 100,
+    "payment_amount": "200",
+    "recurring": true
+  }, {
+    "type": 0,
+    "id": 102,
+    "worker": "bob",
+    "title": "I am offering a service in exchange for tokens (inactive)",
+    "desc": "eosDAC-ui temporary repository\r\n\r\n**1. Install Vue-Cli**\r\n```\r\nyarn global add vue-cli\r\nor:\r\nnpm install -g vue-cli\r\n```\r\n\r\n**2. Install Quasar-Cli**\r\n\r\n```\r\n# Node.js >= 8.9.0 is required.\r\nyarn global add quasar-cli\r\nor:\r\nnpm install -g quasar-cli\r\n```\r\n**3. Clone Repo**\r\n```\r\ngit clone https:\/\/github.com\/nanonano7\/eosdac-ui-temporary.git\r\n```\r\n**4. Install modules**\r\n```\r\nyarn install\r\nor:\r\nnpm install\r\n```\r\n**5. Run dev server**\r\n```\r\nquasar dev\r\n```\r\n[Quasar Docs](https:\/\/quasar-framework.org\/guide\/index.html)",
+    "start": "2018-06-28T05:41:52",
+    "expire": "2016-08-28T05:41:52",
+    "due_date": "2018-07-28T05:41:52",
+    "arbitrator": "rob",
+    "parent": 0,
+    "payment_amount": "200",
+    "recurring": true
+  }],
+  "accounts": [
+    {
+      "name": "rob",
+      "bio": "Rob has a background as a software developer and has run game servers. More recently he has been managing software implementations for international finance companies and government institutions. Rob is convinced that the true power of the EOS.IO software is that it will facilitate DACs which will have significant far-reaching positive social impact.",
+      "image": "rob-177.webp",
+      "custodian": 1,
+      "locked": 4151.51245705,
+      "config": "{?}",
+      "total_votes": 32
+    },
+    {
+      "name": "michael",
+      "bio": "Michael is an expert on various technologies and was the founder and Managing Director of a successful eCommerce platform. Members of the EOS community are likely to recognise Michael’s name as he is highly active within the EOS community. Michael key focus is working to create the foundation for the next generation of distributed systems.",
+      "image": "michael1-77.webp",
+      "custodian": 1,
+      "locked": 5251.55245705,
+      "config": "{?}",
+      "total_votes": 24
+    },
+    {
+      "name": "luke",
+      "bio": "Since the middle of 2017, Luke has been a block-producing witness on the STEEM blockchain. He bought his first bitcoin in January of 2013 and has been passionate about cryptocurrency and decentralization ever since. In 2007, he co-founded and built the ecommerce shopping cart platform FoxyCart.com which he sold to his business partner in 2018 to focus full-time on the blockchain space.",
+      "image": "luke.webp",
+      "custodian": 0,
+      "locked": 55651.55245705,
+      "config": "{?}",
+      "total_votes": 12
+    },
+    {
+      "name": "gordon",
+      "bio": "Gordon is a self-taught marketing, development and project manager who works day to day developing payment, ecommerce and marketing solutions. He recently pioneered a custom built system to allow Bitcoin and AltCoin payments through niche markets increasing their overall use by 300%. He runs a team of permanent and temporary staff comprising of content writers, researchers, graphic designers, developers and social media engineers. Since joining his current company in 2011 revenue has gone from 2M to 10M a year.",
+      "image": "gordon-177.jpg",
+      "custodian": 0,
+      "locked": 651.55245705,
+      "config": "{?}",
+      "total_votes": 4
+    }
+  ],
+  "votes": [
+
+  ]
+}

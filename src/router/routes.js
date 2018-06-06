@@ -6,11 +6,11 @@ export default [
     children: [
       { path: '', component: () => import('pages/index') },
       { path: 'requests', component: () => import('pages/requests') },
-      { path: 'proposal', component: () => import('pages/proposal') },
+      { path: 'proposal/:id', component: () => import('pages/proposal') },
       { path: 'proposals', component: () => import('pages/proposals') },
       { path: 'createproposal', component: () => import('pages/createproposal') },
       { path: 'custodians', component: () => import('pages/custodians') },
-      { path: 'account', component: () => import('pages/account') },
+      { path: 'account/:name', component: () => import('pages/account') },
       { path: 'myaccount', component: () => import('pages/myaccount') },
       { path: 'wallet', component: () => import('pages/wallet') },
       { path: 'settings', component: () => import('pages/settings') },

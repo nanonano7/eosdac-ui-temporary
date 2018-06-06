@@ -5,18 +5,17 @@
       <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" color="white">
         <q-icon name="menu" />
       </q-btn>
-
       <q-toolbar-title class="text-primary text-white">
         <div class="q-headline">
           <img alt="EOSDAC" style="max-height:30px; color: white; margin-bottom:-5px; margin-right:-5px;" src="~assets/eosdac_logo.png"> eosDAC
         </div>
       </q-toolbar-title>
-      <q-btn v-if="getAccount.account_name && !unlocked" @click="loginaction = true" color="white" text-color="primary">unlock account</q-btn>
+      <q-btn v-if="getAccount.account_name && !unlocked" @click="loginaction = true" color="white" text-color="primary">Unlock account</q-btn>
       <div v-if="!getAccount.account_name">
-        <q-chip v-if="getCurrentEndpoint.lastConnectionStatus !== 0" pointing="right" dense square icon="warning" color="secondary">
+        <q-chip v-if="getCurrentEndpoint.lastConnectionStatus !== 0 && $q.platform.is.desktop" pointing="right" dense square icon="warning" color="secondary">
           Requires active api connection
         </q-chip>
-      <q-btn :disabled="getCurrentEndpoint.lastConnectionStatus !== 0" @click="importaction = true" color="white" text-color="primary">import account</q-btn>
+      <q-btn :disabled="getCurrentEndpoint.lastConnectionStatus !== 0" @click="importaction = true" color="white" text-color="primary">Import account</q-btn>
     </div>
       <q-btn-dropdown v-if="getAccount.account_name && unlocked" :label="getAccount.account_name" color="white" text-color="primary">
         <q-list>
@@ -35,12 +34,12 @@
       <q-item to="/requests">
         <q-item-side icon="assignment turned in" />
         <q-item-main label="REQUESTS" sublabel="Index of all requests" />
-        <q-chip color="primary">3</q-chip>
+        <q-item-side right><q-chip dense square color="secondary">new</q-chip></q-item-side>
       </q-item>
       <q-item to="/proposals">
         <q-item-side icon="assignment turned in" />
         <q-item-main label="POROPOSALS" sublabel="Index of all proposals" />
-        <q-chip color="primary">22</q-chip>
+        <q-item-side right><q-chip dense square color="secondary">new</q-chip></q-item-side>
       </q-item>
       <q-item to="/createproposal">
         <q-item-side icon="create" />
@@ -178,8 +177,9 @@ export default {
     })
   },
   mounted () {
-    this.pingCurrentEndpoint()
-    setInterval(this.pingCurrentEndpoint, this.getConnectionInterval)
+    // this.pingCurrentEndpoint()
+    // setInterval(this.pingCurrentEndpoint, this.getConnectionInterval)
+    this.$store.dispatch('api/getProposalsTEMP')
   }
 }
 </script>

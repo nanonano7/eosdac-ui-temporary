@@ -2,23 +2,23 @@
   <q-page padding>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-5">
+        <div class="row justify-center">
+        <q-btn class="q-ma-sm" size="lg" icon="done" label="Approve" color="positive"/>
+        <q-btn class="q-ma-sm" size="lg" icon="clear" label="Disapprove" color="negative"/>
+        <q-btn class="q-ma-sm" size="lg" label="Abstain" color="primary"/>
+      </div>
         <q-card class="q-ma-sm">
-          <q-card-actions>
-            <q-btn size="lg" icon="done" label="Approve" color="positive"/>
-            <q-btn size="lg" icon="clear" label="Disapprove" color="negative"/>
-            <q-btn size="lg" label="Abstain" color="primary"/>
-          </q-card-actions>
           <q-list separator>
-        <q-item link>
+        <q-item link :to="'/account/' + proposal.worker">
           <q-item-main label="Worker" />
           <q-item-side right>
-            account.name
+            {{proposal.worker}}
           </q-item-side>
         </q-item>
         <q-item>
           <q-item-main label="Start" />
           <q-item-side right>
-            <p>{{showDate() | moment('YYYY-MM-DD hh:mm:ss A')}}</p>
+            <p>{{proposal.start | moment('YYYY-MM-DD hh:mm:ss A')}}</p>
           <p>(~{{ showDate() | moment('from', 'now')}})</p>
           </q-item-side>
         </q-item>
@@ -36,16 +36,16 @@
           <p>(~{{ showDate() | moment('from', 'now')}})</p>
           </q-item-side>
         </q-item>
-        <q-item link>
+        <q-item link :to="'/account/' + proposal.arbitrator">
           <q-item-main label="Arbitrator" />
           <q-item-side right>
-            account.name
+            {{proposal.arbitrator}}
           </q-item-side>
         </q-item>
         <q-item>
           <q-item-main label="Payment amount" />
           <q-item-side right>
-            3265.00154258 eosDAC
+            {{proposal.payment_amount}} eosDAC
           </q-item-side>
         </q-item>
       </q-list>
@@ -54,10 +54,9 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-7">
     <q-card class="markdown-body q-ma-sm">
       <q-card-title>
-    <h1 class="text-center proposal-title">Title of proposal lmao lmao lmao and other important stuff</h1>
-    <span slot="subtitle"><q-icon name="account_circle" style="font-size: 14px"/> Author: nanonano7</span>
+    <h1 class="text-center proposal-title">{{proposal.title}}</h1>
   </q-card-title>
-    <div v-html="post"></div>
+    <div v-html="proposal.desc"></div>
   </q-card>
 </div>
 </div>
@@ -71,7 +70,8 @@ export default {
   },
   data () {
     return {
-      post: ''
+      post: '',
+      proposal: null
     }
   },
   methods: {
@@ -80,10 +80,13 @@ export default {
       return ts + 3000000
     },
     loadData () {
-      let md = new MarkdownIt()
-      this.$axios.get('https://raw.githubusercontent.com/EOSIO/eosjs/master/README.md').then((response) => {
-        this.post = md.render(response.data)
-      }).catch(() => {
+      this.$store.dispatch('api/getProposalsTEMP').then((proposals) => {
+        let proposal = proposals.find(p => p.id === parseInt(this.$route.params.id))
+        if (proposal) {
+          let md = new MarkdownIt()
+          proposal.desc = md.render(proposal.desc)
+          this.proposal = proposal
+        }
       })
     }
   },

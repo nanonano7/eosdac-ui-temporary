@@ -1,4 +1,27 @@
 import Eos from 'eosjs'
+import axios from 'axios'
+
+export const getProposalsTEMP = ({
+  state
+}, payload) => {
+  return new Promise((resolve, reject) => {
+    axios.get('/assets/demo-data.json').then((response) => {
+      resolve(response.data.proposals)
+    }).catch(() => {
+    })
+  })
+}
+
+export const getAccountsTEMP = ({
+  state
+}, payload) => {
+  return new Promise((resolve, reject) => {
+    axios.get('/assets/demo-data.json').then((response) => {
+      resolve(response.data.accounts)
+    }).catch(() => {
+    })
+  })
+}
 
 export const pingAndGetInfo = ({
   commit,

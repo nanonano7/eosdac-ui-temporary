@@ -1,5 +1,5 @@
 <template>
-<q-page padding>
+<q-page>
   <div class="row justify-center">
     <div class="col-xs-12">
       <mavon-editor ref="editor" v-model="editorText" language="en" placeholder="Proposal main body" :toolbars="toolbars" class="create-markdown-body" />
@@ -23,20 +23,20 @@
       ]" />
             </div>
           </div>
-          <q-field label="Parent ID" :label-width="12">
-            <q-input v-model="proposalTitle" />
+          <q-field class="q-mt-sm" :label-width="12">
+            <q-input float-label="Parent ID" v-model="proposalTitle" />
           </q-field>
-          <q-field label="Payment amount" :label-width="12">
-            <q-input v-model="proposalTitle" />
+          <q-field class="q-mt-sm" :label-width="12">
+            <q-input float-label="Payment amount" v-model="proposalTitle" />
           </q-field>
-          <q-field label="Recuring data? toggle?" :label-width="12">
-            <q-input v-model="proposalTitle" />
+          <q-field class="q-mt-sm" :label-width="12">
+            <q-input float-label="Recuring data? toggle?" v-model="proposalTitle" />
           </q-field>
-          <q-field label="Title" :label-width="12">
-            <q-input @input="saveTitle()" v-model="proposalTitle" />
+          <q-field class="q-mt-sm" :label-width="12">
+            <q-input float-label="Title" @input="saveTitle()" v-model="proposalTitle" />
           </q-field>
-          <q-field label="Worker" :label-width="12">
-            <q-input v-model="proposalTitle" />
+          <q-field class="q-mt-sm" :label-width="12">
+            <q-input float-label="Worker" v-model="proposalTitle" />
           </q-field>
           <q-list class="q-ma-sm no-border">
           <q-collapsible header-class="q-px-none" dense group="somegroup" :label="'Start Date: ' + startDate | ''">
@@ -49,8 +49,8 @@
             <q-datetime-picker format24h v-model="dueDate" type="datetime" />
           </q-collapsible>
         </q-list>
-        <q-field label="Arbitrator" :label-width="12">
-          <q-input v-model="proposalTitle" />
+        <q-field class="q-mt-sm" :label-width="12">
+          <q-input float-label="Arbitrator" v-model="proposalTitle" />
         </q-field>
         </q-card-main>
       </q-card>
@@ -140,5 +140,10 @@ export default {
 .create-markdown-body {
   padding: 0px !important;
   max-width: 9999px !important;
+  shadow: none;
+  border: none;
+}
+.v-note-wrapper {
+  z-index: 0 !important;
 }
 </style>

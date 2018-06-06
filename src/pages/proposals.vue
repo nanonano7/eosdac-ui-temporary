@@ -1,121 +1,136 @@
 <template>
 <q-page>
-  <q-tabs class="tab-tranp" align="center" no-pane-border>
-    <q-tab color="primary" default slot="title" name="tab-1">Active</q-tab>
-    <q-tab color="primary" slot="title" name="tab-2">Inactive</q-tab>
+  <q-tabs inverted no-pane-border>
+    <q-tab default slot="title" name="tab-1">Active</q-tab>
+    <q-tab slot="title" name="tab-2">Inactive</q-tab>
     <q-tab-pane name="tab-1">
-      <router-link to="/proposal" tag="div" cursor-pointer>
-      <q-card class="q-mb-sm cursor-pointer">
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+          <q-field icon="sort" label="Sort:">
+            <q-select v-model="sortBy" :options="[
+        {
+        label: 'Votes',
+        value: 'Votes'
+        },
+        {
+        label: 'Alphabetical',
+        value: 'Alphabetical'
+        }
+        ]" />
+          </q-field>
+        </div>
+      </div>
+      <router-link v-for="(proposal, index) in activeProps" :key="index" :to="'/proposal/' + proposal.id" tag="div" cursor-pointer>
+      <q-card class="q-ma-sm cursor-pointer">
         <q-card-title class="text-primary wrap pr-title">
           <span class="q-pr-sm q-display-1 float-left on-left brdr text-positive" detail icon="done">87%</span>
-          <div class="q-headline">Title of proposal lmao lmao lmao and other important stuff</div>
+          <div class="q-headline">{{proposal.title}}</div>
           <span slot="subtitle"></span>
         </q-card-title>
-        <q-card-main all-pointer-events cursor-pointer>
-          Deploy a smart contract.
-
-The setcode command accepts WASM text and converts this to binary before signing and broadcasting. For this, the Binaryen library is used. Because this is a large library it is not included in eosjs by default.
-
-Add binaryen to your project:
-
-npm i binaryen@37.0.0
-Although the EOS back-end does seek to be up-to-date and have binaryen backwards compatibility, new versions of binaryen may be problematic.
-
-Import and include the library when you configure Eos:
+        <q-card-main>
+          {{proposal.desc}}
         </q-card-main>
           <q-card-actions>
             <q-chip small square color="white on-left" text-color="primary" detail icon="perm identity">
-            by <b>account.name</b>
+            by <b>{{proposal.worker}}</b>
             </q-chip>
-          <q-chip small square color="white on-left" text-color="primary" detail icon="comment">
-          10 comments
-          </q-chip>
-          <q-chip small square color="white on-left" text-color="primary" detail icon="thumbs up down">
-          245 votes
+          <q-chip small square color="white on-left" text-color="primary" detail>
+          payment amount <b>{{proposal.payment_amount}}</b> eosDAC
           </q-chip>
         </q-card-actions>
       </q-card>
       </router-link>
-      <q-card class="q-mb-sm">
-        <q-card-title class="text-primary wrap pr-title">
-          <span class="q-pr-sm q-display-1 float-left on-left brdr text-warning" detail icon="done">60%</span>
-          <div class="q-headline">Proposal numba 1 title test skdhfgksdh fkhsdkfh sdfhsdufhosd fhosdfho okshdfouahou ashodhsaodas</div>
-          <span slot="subtitle"></span>
-        </q-card-title>
-        <q-card-main>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquam sapien vitae diam malesuada maximus in in nunc. In pulvinar, magna sit amet rutrum interdum, augue nunc vestibulum sem, a semper enim nisi vitae turpis. Praesent aliquam volutpat.
-        </q-card-main>
-          <q-card-actions>
-          <q-chip small square color="white on-left" text-color="primary" detail icon="comment">
-          10 comments
-          </q-chip>
-          <q-chip small square color="white on-left" text-color="primary" detail icon="thumbs up down">
-          245 votes
-          </q-chip>
-        </q-card-actions>
-      </q-card>
-      <q-card class="q-mb-sm">
-        <q-card-title class="text-primary wrap pr-title">
-          <span class="q-pr-sm q-display-1 float-left on-left brdr text-negative" detail icon="done">27%</span>
-          <div class="q-headline">Proposal numba 1 title test skdhfgksdh fkhsdkfh sdfhsdufhosd fhosdfho okshdfouahou ashodhsaodas</div>
-          <span slot="subtitle"></span>
-        </q-card-title>
-        <q-card-main>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquam sapien vitae diam malesuada maximus in in nunc. In pulvinar, magna sit amet rutrum interdum, augue nunc vestibulum sem, a semper enim nisi vitae turpis. Praesent aliquam volutpat.
-        </q-card-main>
-          <q-card-actions>
-          <q-chip small square color="white on-left" text-color="primary" detail icon="comment">
-          10 comments
-          </q-chip>
-          <q-chip small square color="white on-left" text-color="primary" detail icon="thumbs up down">
-          245 votes
-          </q-chip>
-        </q-card-actions>
-      </q-card>
     </q-tab-pane>
-    <q-tab-pane name="tab-2">Tab Two</q-tab-pane>
+    <q-tab-pane name="tab-2">
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+          <q-field icon="sort" label="Sort:">
+            <q-select v-model="sortBy" :options="[
+        {
+        label: 'Votes',
+        value: 'Votes'
+        },
+        {
+        label: 'Alphabetical',
+        value: 'Alphabetical'
+        }
+        ]" />
+          </q-field>
+        </div>
+      </div>
+      <router-link v-for="(proposal, index) in inactiveProps" :key="index" to="/proposal" tag="div" cursor-pointer>
+      <q-card class="q-ma-sm cursor-pointer">
+        <q-card-title class="text-primary wrap pr-title">
+          <span class="q-pr-sm q-display-1 float-left on-left brdr text-positive" detail icon="done">87%</span>
+          <div class="q-headline">{{proposal.title}}</div>
+          <span slot="subtitle"></span>
+        </q-card-title>
+        <q-card-main>
+          {{proposal.desc}}
+        </q-card-main>
+          <q-card-actions>
+            <q-chip small square color="white on-left" text-color="primary" detail icon="perm identity">
+            by <b>{{proposal.worker}}</b>
+            </q-chip>
+            <q-chip small square color="white on-left" text-color="primary" detail>
+            payment amount <b>{{proposal.payment_amount}}</b> eosDAC
+            </q-chip>
+        </q-card-actions>
+      </q-card>
+      </router-link>
+    </q-tab-pane>
   </q-tabs>
 </q-page>
 </template>
 
 <script>
 import MarkdownIt from 'markdown-it'
+import MarkdownItSanitizer from 'markdown-it-sanitizer'
 export default {
   components: {
   },
   data () {
     return {
+      sortBy: 'Votes',
       time: 1526699933,
-      post: ''
+      post: '',
+      activeProps: null,
+      inactiveProps: null
     }
   },
   methods: {
-    showDate () {
-      let ts = Math.round((new Date()).getTime() / 1000)
-      return ts
-    },
     loadData () {
-      let md = new MarkdownIt()
-      this.$axios.get('https://raw.githubusercontent.com/EOSIO/eosjs/master/README.md').then((response) => {
-        this.post = md.render(response.data)
-      }).catch(() => {
+      let md = new MarkdownIt().set({ html: true }).use(MarkdownItSanitizer)
+      this.$store.dispatch('api/getProposalsTEMP').then((proposals) => {
+        let prop = []
+        let unprop = []
+        for (let i = 0; i < proposals.length; i++) {
+          proposals[i].desc = md.render(proposals[i].desc).replace(/<[^>]+>/g, '')
+          if (proposals[i].type === 0) {
+            if (new Date(proposals[i].expire) > new Date()) {
+              prop.push(proposals[i])
+            } else {
+              unprop.push(proposals[i])
+            }
+          }
+        }
+        this.activeProps = prop
+        this.inactiveProps = unprop
       })
     }
   },
-  created () {
+  mounted () {
     this.loadData()
   }
 }
 </script>
 
 <style>
+.q-tab .active
+
 .pr-title {
   word-wrap: break-word;
   padding-bottom: 0px;
-}
-
-.nopadtop {
-  padding-top: 0px;
 }
 
 .brdr {

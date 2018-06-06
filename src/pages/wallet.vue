@@ -15,10 +15,10 @@
   <div class="row justify-center">
     <div class="col-xs-12">
       <q-card class="q-ma-sm text-center">
-        <q-tabs class="tab-tranp" align="center" no-pane-border>
-          <q-tab color="primary" default slot="title" name="tab-1">All</q-tab>
-          <q-tab color="primary" slot="title" name="tab-2">Sent</q-tab>
-          <q-tab color="primary" slot="title" name="tab-3">Recieved</q-tab>
+        <q-tabs align="center" no-pane-border>
+          <q-tab class="q-title" default slot="title" name="tab-1">All</q-tab>
+          <q-tab class="q-title" slot="title" name="tab-2">Sent</q-tab>
+          <q-tab class="q-title" slot="title" name="tab-3">Recieved</q-tab>
           <q-tab-pane name="tab-1">
             <q-list>
               <q-item>

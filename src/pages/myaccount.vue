@@ -43,11 +43,11 @@
         </q-card>
       </div>
       <div class="col-md-12 col-xl-8">
-        <q-tabs class="tab-tranp" align="center" no-pane-border>
-          <q-tab color="primary" default slot="title" name="tab-1">Active Proposals</q-tab>
-          <q-tab color="primary" slot="title" name="tab-2">Inactive Proposals</q-tab>
-          <q-tab color="primary" slot="title" name="tab-2">Requests</q-tab>
-          <q-tab color="primary" slot="title" name="tab-2">Votes</q-tab>
+        <q-tabs inverted class="q-ma-sm" align="center" no-pane-border>
+          <q-tab default slot="title" name="tab-1">Active Proposals</q-tab>
+          <q-tab slot="title" name="tab-2">Inactive Proposals</q-tab>
+          <q-tab slot="title" name="tab-2">Requests</q-tab>
+          <q-tab slot="title" name="tab-2">Votes</q-tab>
           <q-tab-pane name="tab-1">
             <router-link to="/proposal" tag="div" cursor-pointer>
             <q-card class="q-mb-sm cursor-pointer">

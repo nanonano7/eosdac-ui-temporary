@@ -2,7 +2,7 @@
 <q-page padding>
   <div class="row">
     <div class="col-xs-12 col-sm-4">
-      <q-card class="relative-position">
+      <q-card class="q-ma-sm relative-position">
         <q-card-title>
           Endpoints
           <q-btn color="primary" class="float-right" label="Add" @click="addendpoint = true" />
@@ -70,7 +70,62 @@
           <q-btn @click="changeIntervals()" v-if="timeout !== getConnectionTimeout / 1000 || connInterval !== getConnectionInterval / 1000" color="primary" label="Update"/>
         </q-card-actions>
       </q-card>
-        <LoadingSpinner :visible="loading" :text="loadingText" />
+      <Loading :visible="loading" :text="loadingText" />
+      </q-card>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <q-card class="q-ma-sm">
+        <q-card-title>
+          Miscellaneous
+        </q-card-title>
+        <q-card-separator />
+        <q-card-main>
+          <q-item>
+            <q-item-main label="">
+              <q-field
+                class="q-ma-sm"
+                label="Autolock account"
+                >
+                <q-toggle v-model="autolock" />
+              </q-field>
+            </q-item-main>
+          </q-item>
+          <q-item v-if="autolock">
+            <q-item-main label="">
+              <q-field
+                class="q-ma-sm"
+                label="Lock account after "
+                >
+                <q-select v-model="autoLockTimeout" :options="[
+            {
+            label: '30 seconds',
+            value: 30
+            },
+            {
+              label: '60 seconds',
+              value: 60
+            },
+            {
+              label: '5 Minutes',
+              value: 300
+            },
+            {
+              label: '10 Minutes',
+              value: 600
+            },
+            {
+              label: '30 Minutes',
+              value: 1800
+            },
+            {
+              label: '1 Hour',
+              value: 3600
+            }
+            ]" />
+              </q-field>
+            </q-item-main>
+          </q-item>
+        </q-card-main>
       </q-card>
     </div>
   </div>
@@ -84,7 +139,7 @@
 </template>
 
 <script>
-import LoadingSpinner from 'components/loading-spinner'
+import Loading from 'components/loading'
 import AddEndpoint from 'components/add-endpoint'
 import {
   mapGetters
@@ -93,7 +148,7 @@ export default {
   name: 'settings',
   components: {
     AddEndpoint,
-    LoadingSpinner
+    Loading
   },
   data () {
     return {
@@ -109,7 +164,9 @@ export default {
       intervalErrorText: '',
       timeout: 0,
       timeoutError: false,
-      timeoutErrorText: ''
+      timeoutErrorText: '',
+      autolock: true,
+      autoLockTimeout: 300
     }
   },
   computed: {

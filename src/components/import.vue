@@ -11,7 +11,7 @@
     </q-stepper-navigation>
   </q-step>
   <q-step title="Permissions">
-    <q-list highlight>
+    <q-list class="no-border">
       <q-list-header>Permission Threshold: {{permissionThreshold}}</q-list-header>
       <q-item v-for="(perm, index) in permissions" :key="index">
         <q-item-side>
@@ -47,21 +47,21 @@
   <q-btn :disabled="!hasScatter" class="q-ma-xl" color="primary" @click="useScatter()">Use Scatter</q-btn>
   <q-alert v-if="scatterError" color="white" text-color="primary" :message="scatterErrorText" icon="info" class="q-mb-sm"/>
 </div>
-<LoadingSpinner :visible="loading" :text="loadingText" />
+<Loading :visible="loading" :text="loadingText" />
 </div>
 </template>
 
 <script>
 import ecc from 'eosjs-ecc'
 import CryptoJS from 'crypto-js'
-import LoadingSpinner from 'components/loading-spinner'
+import Loading from 'components/loading'
 import {
   mapGetters
 } from 'vuex'
 export default {
   name: 'import',
   components: {
-    LoadingSpinner
+    Loading
   },
   data () {
     return {

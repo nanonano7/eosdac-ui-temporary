@@ -30,7 +30,7 @@ export default {
   methods: {
     unlock () {
       this.$store.dispatch('account/unlockAccount', this.password).then(() => {
-
+        this.clear()
       }, (err) => {
         if (err) {
           this.error = true

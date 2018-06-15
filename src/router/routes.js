@@ -6,6 +6,7 @@ export default [
     children: [
       { path: '', component: () => import('pages/index') },
       { path: 'requests', component: () => import('pages/requests') },
+      { path: 'request/:id', component: () => import('pages/request') },
       { path: 'proposal/:id', component: () => import('pages/proposal') },
       { path: 'proposals', component: () => import('pages/proposals') },
       { path: 'createproposal', component: () => import('pages/createproposal') },

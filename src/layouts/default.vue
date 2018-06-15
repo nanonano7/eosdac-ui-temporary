@@ -18,8 +18,8 @@
       <q-btn :disabled="getCurrentEndpoint.lastConnectionStatus !== 0" @click="importaction = true" color="white" text-color="primary">Import account</q-btn>
     </div>
       <q-btn-dropdown v-if="getAccount.account_name && unlocked" :label="getAccount.account_name" color="white" text-color="primary">
-        <q-list>
-          <q-item>
+        <q-list link>
+          <q-item @click.native="lockAccount()">
             <q-item-main>
               <q-item-tile label>Lock account</q-item-tile>
             </q-item-main>
@@ -54,6 +54,7 @@
         <q-item-side icon="perm identity" />
         <q-item-main label="ACCOUNT" sublabel="Change account info and settings" />
       </q-item>
+      <!--v-if="getAccount.account_name"-->
       <q-item to="/wallet">
         <q-item-side icon="toll" />
         <q-item-main label="Wallet" sublabel="Manage your eosDAC tokens" />
@@ -71,7 +72,7 @@
   <q-modal v-model="loginaction" ref="loginModal" v-on:hide="clearLogin()" :content-css="{minWidth: '50vw', minHeight: '80vh', background: 'none', boxShadow: 'none'}">
     <q-modal-layout>
       <q-btn @click="loginaction = false" icon="clear" color="red" class="no-shadow"/>
-      <Login ref="Login" v-on:closeImportModal="closeLoginModal()" />
+      <Login ref="Login" v-on:closeLoginModal="closeLoginModal()" />
     </q-modal-layout>
   </q-modal>
   <q-modal v-model="importaction" ref="importModal" v-on:hide="clearImport()" :content-css="{minWidth: '50vw', minHeight: '80vh', background: 'none', boxShadow: 'none'}">
@@ -127,6 +128,9 @@ export default {
     })
   },
   methods: {
+    lockAccount () {
+      this.$store.dispatch('account/lockAccount')
+    },
     clearImport () {
       this.$refs.Import.clear()
     },
@@ -136,7 +140,7 @@ export default {
     clearLogin () {
       this.$refs.Login.clear()
     },
-    closeLogintModal () {
+    closeLoginModal () {
       this.$refs.loginModal.hide()
     },
     pingCurrentEndpoint () {
@@ -177,8 +181,8 @@ export default {
     })
   },
   mounted () {
-    // this.pingCurrentEndpoint()
-    // setInterval(this.pingCurrentEndpoint, this.getConnectionInterval)
+    this.pingCurrentEndpoint()
+    setInterval(this.pingCurrentEndpoint, this.getConnectionInterval)
     this.$store.dispatch('api/getProposalsTEMP')
   }
 }

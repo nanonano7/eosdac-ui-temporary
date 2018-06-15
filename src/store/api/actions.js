@@ -28,7 +28,7 @@ export const pingAndGetInfo = ({
   state
 }) => {
   return new Promise((resolve, reject) => {
-    let eos = Eos.Testnet(state.endpoints[state.activeEndpointIndex])
+    let eos = Eos(state.endpoints[state.activeEndpointIndex])
     let sTime = Date.now()
     let timeout = setTimeout(function () {
       commit('PING_ENDPOINT_FAIL')
@@ -60,11 +60,70 @@ export const pingAndGetInfo = ({
   })
 }
 
+export const transfer = ({
+  commit,
+  state,
+  rootState
+}, payload) => {
+  return new Promise((resolve, reject) => {
+    let config = {
+      chainId: state.lastGetInfo.chain_id,
+      keyProvider: rootState.account.pkeys,
+      httpEndpoint: state.endpoints[state.activeEndpointIndex].httpEndpoint,
+      expireInSeconds: 60,
+      broadcast: true,
+      debug: false,
+      sign: true
+    }
+    let eos = Eos(config)
+    let timeout = setTimeout(function () {
+      reject(Error('timeout'))
+    }, state.connectionTimeoutMilSec)
+    eos.contract('eosdactoken').then((eosdactoken) => {
+      clearTimeout(timeout)
+      eosdactoken.transfer(rootState.account.info.account_name, payload.to, payload.amount + ' ' + payload.token, payload.memo).then((res) => {
+        resolve(res)
+      }, (err) => {
+        clearTimeout(timeout)
+        if (err) {
+          reject(Error('failed'))
+        }
+      })
+    }, (err) => {
+      clearTimeout(timeout)
+      if (err) {
+        reject(Error('failed'))
+      }
+    })
+  })
+}
+
+export const getBalances = ({
+  commit,
+  state
+}, payload) => {
+  return new Promise((resolve, reject) => {
+    let eos = Eos(state.endpoints[state.activeEndpointIndex])
+    let timeout = setTimeout(function () {
+      reject(Error('timeout'))
+    }, state.connectionTimeoutMilSec)
+    eos.getTableRows({ json: true, scope: payload.account, code: 'eosdactoken', table: 'accounts' }).then((res) => {
+      clearTimeout(timeout)
+      resolve(res)
+    }, (err) => {
+      clearTimeout(timeout)
+      if (err) {
+        reject(new Error('failed'))
+      }
+    })
+  })
+}
+
 export const getAccount = ({
   state
 }, payload) => {
   return new Promise((resolve, reject) => {
-    let eos = Eos.Testnet(state.endpoints[state.activeEndpointIndex])
+    let eos = Eos(state.endpoints[state.activeEndpointIndex])
     let timeout = setTimeout(function () {
       reject(Error('timeout'))
     }, state.connectionTimeoutMilSec)

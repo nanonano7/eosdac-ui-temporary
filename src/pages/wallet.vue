@@ -1,78 +1,167 @@
 <template>
 <q-page padding>
   <div class="row justify-center">
-    <div class="col-xs-8">
+    <div class="col-xs-6 q-ma-sm">
       <q-card class="text-center" text-color="primary">
-        <span class="q-display-3">4852.0262101</span><span class="q-headline"> eosDAC</span>
+        <span class="q-display-3">{{eosdacBalance}}</span><span class="q-headline"> eosDAC</span>
       </q-card>
     </div>
   </div>
   <div class="row justify-center">
-    <div class="col-xs-12 text-center">
-      <q-btn class="q-ma-sm" size="xl" color="primary" icon="call_made" label="SEND" @click="sendaction = true"/>
-    </div>
-  </div>
-  <div class="row justify-center">
-    <div class="col-xs-12">
-      <q-card class="q-ma-sm text-center">
-        <q-tabs align="center" no-pane-border>
-          <q-tab class="q-title" default slot="title" name="tab-1">All</q-tab>
-          <q-tab class="q-title" slot="title" name="tab-2">Sent</q-tab>
-          <q-tab class="q-title" slot="title" name="tab-3">Recieved</q-tab>
-          <q-tab-pane name="tab-1">
-            <q-list>
-              <q-item>
-                <q-item-side icon="call_made" color="primary" />
-                <q-item-main>
-                  <b>245.02450245601</b> eosDac sent to <b>accounname</b>
-                </q-item-main>
-                <q-item-side right>
-                  <q-item-tile stamp>1 week ago</q-item-tile>
-                </q-item-side>
-              </q-item>
-              <q-item>
-                <q-item-side icon="call_received" color="primary" />
-                <q-item-main>
-                  <b>245.02450245601</b> eosDac received from <b>accounname</b>
-                </q-item-main>
-                <q-item-side right>
-                  <q-item-tile stamp>1 week ago</q-item-tile>
-                </q-item-side>
-              </q-item>
-            </q-list>
-          </q-tab-pane>
-        </q-tabs>
+    <div class="col-xs-6 q-ma-sm">
+      <q-card class="q-pa-xl" color="white" text-color="black">
+        <q-checkbox v-model="addContact" label="Add to contacts" />
+        <q-field class="q-mb-md" :error="accountError" :error-label="accountErrorLabel" label="To:" :label-width="12">
+          <q-input v-model="account">
+            <q-btn-dropdown :disabled="!getContacts" flat color="primary" label="Contacts">
+              <q-list link>
+          <q-item v-for="(contact, index) in getContacts" :key="index" v-close-overlay @click.native="pickContact(contact)">
+            <q-item-main>
+              <q-item-tile label>{{contact}}</q-item-tile>
+            </q-item-main>
+            <q-item-side right color="red" icon="clear" @click.native="removeContact(contact)"/>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
+          </q-input>
+        </q-field>
+        <q-field :error="amountError" :error-label="amountErrorLabel" label="Amount" :label-width="12">
+          <q-input type="number" suffix="eosDAC" v-model="amount">
+          </q-input>
+        </q-field>
+        <q-field class="q-mt-md" label="Memo" :label-width="12">
+        <q-input v-model="memo" type="textarea" rows="2" />
+        </q-field>
+        <q-card-actions align="end">
+            <q-btn :disable="badSend" class="q-ma-sm" color="primary" label="Transfer" @click="transfer()"/>
+        </q-card-actions>
       </q-card>
-    </div>
   </div>
-  <q-modal v-model="sendaction" ref="sendModal" v-on:hide="clearImport()" :content-css="{minWidth: '50vw', minHeight: '80vh', background: 'none', boxShadow: 'none'}">
-    <q-modal-layout>
-      <q-btn class="noshadow" @click="sendaction = false" icon="clear" color="red" />
-      <Send ref="Send" v-on:closeSendModal="closeSendModal()" />
-    </q-modal-layout>
-  </q-modal>
+</div>
+  <Loading :visible="loading" :text="loadingText" />
 </q-page>
 </template>
 
 <script>
-import Send from 'components/send'
+import Loading from 'components/loading'
+import {
+  mapGetters
+} from 'vuex'
 export default {
   name: 'wallet',
   components: {
-    Send
+    Loading
   },
   data () {
     return {
-      sendaction: false
+      loading: false,
+      loadingText: '',
+      badSend: true,
+      addContact: false,
+      account: '',
+      accountError: false,
+      accountErrorLabel: '',
+      amount: null,
+      amountError: false,
+      amountErrorLabel: '',
+      memo: '',
+      sendaction: false,
+      hasEosdac: false,
+      eosdacBalance: null
     }
   },
   methods: {
-    clearImport () {
-      this.$refs.Send.clear()
+    transfer () {
+      this.loading = true
+      this.loadingText = 'Pushing transaction...'
+      if (this.addContact) {
+        this.$store.commit('account/ADD_CONTACT', this.account)
+      }
+      this.$store.dispatch('api/transfer', {to: this.account, amount: this.amount, token: 'EOSDAC', memo: this.memo}).then((res) => {
+        this.getBalances()
+        this.loading = false
+        console.log(res)
+      }, (err) => {
+        this.loading = false
+        console.log(err)
+      })
     },
-    closeSendModal () {
-      this.$refs.sendModal.hide()
+    pickContact (contact) {
+      this.account = contact
+    },
+    removeContact (contact) {
+      this.$store.commit('account/REMOVE_CONTACT', contact)
+    },
+    checkTransfer () {
+      if (!this.accountError && !this.amountError && this.amount && this.account) {
+        this.badSend = false
+      } else {
+        this.badSend = true
+      }
+    },
+    getBalances () {
+      this.loading = true
+      this.loadingText = 'Retrieving balances...'
+      this.$store.dispatch('api/getBalances', {account: 'alice'}).then((res) => {
+        for (let i = 0; i < res.rows.length; i++) {
+          let balance = res.rows[i].balance
+          if (balance.split(' ')[1] === 'EOSDAC') {
+            this.eosdacBalance = Number(balance.split(' ')[0])
+            this.hasEosdac = true
+          }
+        }
+        if (!this.eosdacBalance) {
+          this.hasEosdac = false
+        }
+        this.loading = false
+      }, (err) => {
+        if (err) {
+          setTimeout(this.getBalances(), 3000)
+        }
+      })
     }
+  },
+  computed: {
+    ...mapGetters({
+      getAccount: 'account/getAccount',
+      getContacts: 'account/getContacts',
+      unlocked: 'account/unlocked'
+    })
+  },
+  watch: {
+    amount (val) {
+      if (!val) {
+        this.amountError = false
+        this.amountErrorLabel = ''
+        this.checkTransfer()
+      } else if (isNaN(val)) {
+        this.amountError = true
+        this.amountErrorLabel = 'Invalid amount'
+        this.checkTransfer()
+      } else {
+        this.amountError = false
+        this.amountErrorLabel = ''
+        this.checkTransfer()
+      }
+    },
+    account (val) {
+      if (!val) {
+        this.accountError = false
+        this.accountErrorLabel = ''
+        this.checkTransfer()
+      } else if (!/(^[a-z1-5.]{0,11}[a-z1-5]$)|(^[a-z1-5.]{12}[a-j1-5]$)/.test(val)) {
+        this.accountError = true
+        this.accountErrorLabel = 'Invalid account name'
+        this.checkTransfer()
+      } else {
+        this.accountError = false
+        this.accountErrorLabel = ''
+        this.checkTransfer()
+      }
+    }
+  },
+  mounted () {
+    this.getBalances()
   }
 }
 </script>

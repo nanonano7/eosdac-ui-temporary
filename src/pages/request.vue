@@ -2,24 +2,22 @@
   <q-page padding>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-5">
-        <div class="row justify-center" v-if="getAccount.account_name">
-        <q-btn class="q-ma-sm" size="lg" icon="done" label="Approve" color="positive"/>
-        <q-btn class="q-ma-sm" size="lg" icon="clear" label="Disapprove" color="negative"/>
-        <q-btn class="q-ma-sm" size="lg" label="Abstain" color="primary"/>
+        <div class="row justify-center">
+        <q-btn class="q-ma-sm" size="lg" label="Create Sub-Proposal" @click="propose()" color="primary"/>
       </div>
         <q-card class="q-ma-sm">
           <q-list separator>
-        <q-item link :to="'/account/' + proposal.worker">
-          <q-item-main label="Worker" />
-          <q-item-tile>
-            <span class="q-mx-sm q-item-side">{{proposal.worker}}</span>
-          </q-item-tile>
-          <q-item-side right>
-              <q-item-tile avatar>
-                <img :src="'assets/' +  account.image">
+            <q-item link :to="'/account/' + proposal.worker">
+              <q-item-main label="Worker" />
+              <q-item-tile>
+                <span class="q-mx-sm q-item-side">{{proposal.worker}}</span>
               </q-item-tile>
-          </q-item-side>
-        </q-item>
+              <q-item-side right>
+                  <q-item-tile avatar>
+                    <img :src="'assets/' +  account.image">
+                  </q-item-tile>
+              </q-item-side>
+            </q-item>
         <q-item>
           <q-item-main label="Start" />
           <q-item-side right>
@@ -70,9 +68,6 @@
 
 <script>
 import MarkdownIt from 'markdown-it'
-import {
-  mapGetters
-} from 'vuex'
 export default {
   components: {
   },
@@ -82,14 +77,6 @@ export default {
       proposal: null,
       account: null
     }
-  },
-  computed: {
-    ...mapGetters({
-      getAccount: 'account/getAccount',
-      getCurrentEndpoint: 'api/getCurrentEndpoint',
-      getConnectionInterval: 'api/getConnectionInterval',
-      unlocked: 'account/unlocked'
-    })
   },
   methods: {
     showDate () {
@@ -113,6 +100,12 @@ export default {
           })
         }
       })
+    },
+    propose () {
+      this.$store.commit('account/SAVE_DRAFT_META', {
+        parentId: this.$route.params.id
+      })
+      this.$router.push('/createproposal')
     }
   },
   created () {

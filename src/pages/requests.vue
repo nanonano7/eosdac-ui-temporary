@@ -20,7 +20,7 @@
             </q-field>
           </div>
         </div>
-        <router-link v-for="(proposal, index) in activeReqs" :key="index" to="/proposal" tag="div" cursor-pointer>
+        <router-link v-for="(proposal, index) in activeReqs" :key="index" :to="'/request/' + proposal.id" tag="div" cursor-pointer>
         <q-card class="q-ma-sm cursor-pointer">
           <q-card-title class="text-primary wrap pr-title">
             <div class="q-headline">{{proposal.title}}</div>

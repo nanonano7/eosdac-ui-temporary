@@ -5,16 +5,16 @@
     </q-input>
   </q-field>
   <q-btn class="q-ma-sm float-right" :disable="badEndpoint" color="primary" @click="add()">Add</q-btn>
-  <LoadingSpinner :visible="loading" :text="loadingText" />
+  <Loading :visible="loading" :text="loadingText" />
 </q-card>
 </template>
 
 <script>
-import LoadingSpinner from 'components/loading-spinner'
+import Loading from 'components/loading'
 export default {
   name: 'addendpoint',
   components: {
-    LoadingSpinner
+    Loading
   },
   data () {
     return {

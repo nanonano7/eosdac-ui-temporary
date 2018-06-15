@@ -61,7 +61,6 @@
       <router-link v-for="(proposal, index) in inactiveProps" :key="index" to="/proposal" tag="div" cursor-pointer>
       <q-card class="q-ma-sm cursor-pointer">
         <q-card-title class="text-primary wrap pr-title">
-          <span class="q-pr-sm q-display-1 float-left on-left brdr text-positive" detail icon="done">87%</span>
           <div class="q-headline">{{proposal.title}}</div>
           <span slot="subtitle"></span>
         </q-card-title>

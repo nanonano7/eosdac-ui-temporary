@@ -3,11 +3,11 @@
   <q-field class="q-mb-md" :error="accountError" :error-label="accountErrorLabel" label="To:" :label-width="12">
     <q-checkbox v-model="addContact" label="Add contact" />
     <q-input v-model="account">
-      <q-btn-dropdown flat color="primary" label="Contacts">
+      <q-btn-dropdown :disabled="!getContacts" flat color="primary" label="Contacts">
         <q-list link>
-    <q-item>
+    <q-item v-for="(contact, index) in getContacts" :key="index">
       <q-item-main>
-        <q-item-tile label>my.buddy</q-item-tile>
+        <q-item-tile label>{{contact}}</q-item-tile>
       </q-item-main>
     </q-item>
   </q-list>
@@ -24,12 +24,18 @@
     </q-input>
   </q-field>
   <q-input v-model="area" type="textarea" float-label="Memo" rows="2" />
+  <q-card-actions align="end">
+      <q-btn class="q-ma-sm" color="primary" label="Transfer" @click="sendaction = true"/>
+  </q-card-actions>
   <LoadingSpinner :visible="loading" :text="loadingText" />
 </q-card>
 </template>
 
 <script>
 import LoadingSpinner from 'components/loading-spinner'
+import {
+  mapGetters
+} from 'vuex'
 export default {
   name: 'send',
   components: {
@@ -50,6 +56,13 @@ export default {
       amountErrorLabel: '',
       area: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      getAccount: 'account/getAccount',
+      getContacts: 'api/getContacts',
+      unlocked: 'account/unlocked'
+    })
   },
   methods: {
     clear () {

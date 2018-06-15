@@ -1,17 +1,29 @@
 <template>
 <q-page>
-  <div class="row justify-center">
-    <div class="col-xs-12">
-      <mavon-editor ref="editor" v-model="editorText" language="en" placeholder="Proposal main body" :toolbars="toolbars" class="create-markdown-body" />
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <mavon-editor boxShadow="false" defaultOpen="edit" ref="editor" v-model="editorText" language="en" placeholder="Proposal main body" :toolbars="toolbars" class="q-ma-sm create-markdown-body round-borders" />
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <q-card class="q-ma-sm markdown-body">
+        <q-card-title>
+      <h1 v-if="proposalTitle" class="text-center proposal-title">{{proposalTitle}}</h1>
+      <h1 v-else class="text-center proposal-title text-grey">Title</h1>
+    </q-card-title>
+      <div v-html="renderedText"></div>
+    </q-card>
     </div>
   </div>
   <div class="row q-mt-sm">
     <div class="col-xs-6">
-      <q-card flat class="q-mb-sm">
+      <q-card class="q-ma-sm">
         <q-card-main>
-          <div class="row">
-            <div class="col-xs-3">
-              <q-select v-model="type" float-label="Type" radio :options="[
+          <q-field class="q-mt-sm" :label-width="12">
+            <q-input float-label="Title" @input="saveTitle()" v-model="proposalTitle" />
+          </q-field>
+          <div class="row q-mt-sm">
+            <div class="col-xs-5">
+              <q-select v-model="type" @input="saveChanges()" float-label="Type" radio :options="[
         {
           label: 'Proposal',
           value: 'Proposal'
@@ -23,35 +35,29 @@
       ]" />
             </div>
           </div>
-          <q-field class="q-mt-sm" :label-width="12">
-            <q-input float-label="Parent ID" v-model="proposalTitle" />
+          <q-field v-if="type === 'Proposal'" class="q-mt-sm" :label-width="12">
+            <q-input float-label="Parent ID" @input="saveChanges()" v-model="parentId" />
           </q-field>
           <q-field class="q-mt-sm" :label-width="12">
-            <q-input float-label="Payment amount" v-model="proposalTitle" />
+            <q-input type="number" float-label="Payment amount" @input="saveChanges()" v-model="paymentAmount" />
           </q-field>
           <q-field class="q-mt-sm" :label-width="12">
-            <q-input float-label="Recuring data? toggle?" v-model="proposalTitle" />
+            <q-input float-label="Recuring data? toggle?" @input="saveChanges()" v-model="recurring" />
           </q-field>
           <q-field class="q-mt-sm" :label-width="12">
-            <q-input float-label="Title" @input="saveTitle()" v-model="proposalTitle" />
-          </q-field>
-          <q-field class="q-mt-sm" :label-width="12">
-            <q-input float-label="Worker" v-model="proposalTitle" />
+            <q-input float-label="Arbitrator" @input="saveChanges()" v-model="arbitrator" />
           </q-field>
           <q-list class="q-ma-sm no-border">
-          <q-collapsible header-class="q-px-none" dense group="somegroup" :label="'Start Date: ' + startDate | ''">
-            <q-datetime-picker format24h v-model="startDate" type="datetime" />
-          </q-collapsible>
-          <q-collapsible header-class="q-px-none" dense group="somegroup" :label="'Expire Date: ' + expireDate | ''">
-            <q-datetime-picker format24h v-model="expireDate" type="datetime" />
-          </q-collapsible>
-          <q-collapsible header-class="q-px-none" dense group="somegroup" :label="'Due Date: ' + dueDate | ''">
-            <q-datetime-picker format24h v-model="dueDate" type="datetime" />
-          </q-collapsible>
+            <q-field :label="'Start Date: ' + startDate" class="q-mt-sm" :label-width="12">
+            <q-datetime-picker @input="saveChanges()" format24h v-model="startDate" type="datetime" />
+          </q-field>
+          <q-field :label="'Expire Date: ' + expireDate" class="q-mt-sm" :label-width="12">
+            <q-datetime-picker @input="saveChanges()" format24h v-model="expireDate" type="datetime" />
+          </q-field>
+          <q-field :label="'Due Date: ' + dueDate" class="q-mt-sm" :label-width="12">
+            <q-datetime-picker @input="saveChanges()" format24h v-model="dueDate" type="datetime" />
+          </q-field>
         </q-list>
-        <q-field class="q-mt-sm" :label-width="12">
-          <q-input float-label="Arbitrator" v-model="proposalTitle" />
-        </q-field>
         </q-card-main>
       </q-card>
     </div>
@@ -60,15 +66,22 @@
 </template>
 
 <script>
+import MarkdownIt from 'markdown-it'
+let md = new MarkdownIt()
 import {
   mapGetters
 } from 'vuex'
 export default {
   data () {
     return {
-      proposalTitle: '',
+      proposalTitle: 'Title',
       editorText: '',
-      type: '',
+      renderedText: '',
+      type: 'Proposal',
+      parentId: 0,
+      paymentAmount: 0,
+      recurring: '',
+      arbitrator: '',
       startDate: '',
       expireDate: '',
       dueDate: '',
@@ -100,22 +113,41 @@ export default {
         alignleft: true,
         aligncenter: true,
         alignright: true,
-        subfield: true,
-        preview: true
+        subfield: false,
+        preview: false
       }
     }
   },
   computed: {
     ...mapGetters({
-      getDraft: 'account/getProposalDraft'
+      getDraft: 'account/getProposalDraft',
+      getAccount: 'account/getAccount'
     })
   },
   methods: {
     saveTitle () {
       let t = this.proposalTitle
-      this.$store.commit('account/SAVE_DRAFT_TITLE', {
+      this.$store.commit('account/SAVE_DRAFT_META', {
         title: t
       })
+    },
+    saveChanges () {
+      this.$store.commit('account/SAVE_DRAFT_META', {
+        title: this.proposalTitle,
+        type: this.type,
+        parentId: this.parentId,
+        paymentAmount: this.paymentAmount,
+        recurring: this.recurring,
+        arbitrator: this.arbitrator,
+        startDate: this.startDate,
+        expireDate: this.expireDate,
+        dueDate: this.dueDate
+      })
+    }
+  },
+  watch: {
+    editorText (val) {
+      this.renderedText = md.render(val)
     }
   },
   mounted () {
@@ -128,11 +160,32 @@ export default {
     let prop = this.getDraft
     this.proposalTitle = prop.title
     this.editorText = prop.text
+    this.renderedText = prop.renderedText
+    this.type = prop.type
+    this.parentId = prop.parentId
+    this.paymentAmount = prop.paymentAMount
+    this.recurring = prop.recurring
+    this.arbitrator = prop.arbitrator
+    this.startDate = prop.startDate
+    this.expireDate = prop.expireDate
+    this.dueDate = prop.dueDate
   }
 }
 </script>
 
 <style>
+.markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        padding: 0px 45px 45px 45px;
+    }
+
+    @media (max-width: 767px) {
+        .markdown-body {
+            padding: 15px;
+        }
+    }
 .op-image:nth-child(2) {
   display: none;
 }
@@ -144,6 +197,6 @@ export default {
   border: none;
 }
 .v-note-wrapper {
-  z-index: 0 !important;
+  z-index: 1 !important;
 }
 </style>

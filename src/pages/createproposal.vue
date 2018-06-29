@@ -2,7 +2,7 @@
 <q-page>
   <div class="row">
     <div class="col-sm-12 col-md-6">
-      <mavon-editor boxShadow="false" defaultOpen="edit" ref="editor" v-model="editorText" language="en" placeholder="Proposal main body" :toolbars="toolbars" class="q-ma-sm create-markdown-body round-borders" />
+      <mavon-editor defaultOpen="edit" ref="editor" v-model="editorText" language="en" placeholder="Proposal main body" :toolbars="toolbars" class="q-ma-sm create-markdown-body round-borders" />
     </div>
     <div class="col-sm-12 col-md-6">
       <q-card class="q-ma-sm markdown-body">

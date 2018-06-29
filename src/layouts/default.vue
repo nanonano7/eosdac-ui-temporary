@@ -124,7 +124,9 @@ export default {
       getAccount: 'account/getAccount',
       getCurrentEndpoint: 'api/getCurrentEndpoint',
       getConnectionInterval: 'api/getConnectionInterval',
-      unlocked: 'account/unlocked'
+      unlocked: 'account/unlocked',
+      getAutolockInterval: 'account/getAutolockInterval',
+      lastUnlock: 'account/lastUnlock'
     })
   },
   methods: {
@@ -168,6 +170,11 @@ export default {
         this.alert.errorTextDetail = 'The api endpoint might be offline or is set up incorrectly.'
       })
     },
+    autolock () {
+      if (this.getAutolockInterval && this.getAutolockInterval + this.lastUnlock <= Math.floor(Date.now() / 1000)) {
+        this.lockAccount()
+      }
+    },
     openURL
   },
   created () {
@@ -183,7 +190,7 @@ export default {
   mounted () {
     this.pingCurrentEndpoint()
     setInterval(this.pingCurrentEndpoint, this.getConnectionInterval)
-    this.$store.dispatch('api/getProposalsTEMP')
+    setInterval(this.autolock, 1000)
   }
 }
 </script>

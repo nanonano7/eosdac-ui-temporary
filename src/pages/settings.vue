@@ -86,7 +86,7 @@
                 class="q-ma-sm"
                 label="Autolock account"
                 >
-                <q-toggle v-model="autolock" />
+                <q-toggle @input="setAutolock()" v-model="autolock" />
               </q-field>
             </q-item-main>
           </q-item>
@@ -96,7 +96,7 @@
                 class="q-ma-sm"
                 label="Lock account after "
                 >
-                <q-select v-model="autoLockTimeout" :options="[
+                <q-select @input="setAutolock()" v-model="autoLockTimeout" :options="[
             {
             label: '30 seconds',
             value: 30
@@ -180,6 +180,9 @@ export default {
   methods: {
     changeIntervals () {
       this.$store.commit('api/CHANGE_INTERVALS', {connectionTimeoutMilSec: this.timeout * 1000, checkIntervalMilSec: this.connInterval * 1000})
+    },
+    setAutolock () {
+      this.$store.commit('account/SET_AUTOLOCK', {autolock: this.autolock, autolockIntervalSec: this.autoLockTimeout})
     },
     clearendpointref () {
       this.$refs.endpointref.clear()

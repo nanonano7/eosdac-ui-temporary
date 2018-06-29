@@ -28,11 +28,6 @@
               <q-card-main>
                 <q-list no-border>
                   <q-item>
-                    <q-item-side>
-                      <q-item-tile avatar>
-                        <img :src="'assets/' + account.image">
-                      </q-item-tile>
-                    </q-item-side>
                     <q-item-main class="q-title" :label="account.name" />
                   </q-item>
                   <q-item>
@@ -86,11 +81,6 @@
               <q-card-main>
                 <q-list no-border>
                   <q-item>
-                    <q-item-side>
-                      <q-item-tile avatar>
-                        <img :src="'assets/' + account.image">
-                      </q-item-tile>
-                    </q-item-side>
                     <q-item-main class="q-title" :label="account.name" />
                   </q-item>
                   <q-item>

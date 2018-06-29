@@ -12,11 +12,6 @@
               <q-item-tile>
                 <span class="q-mx-sm q-item-side">{{proposal.worker}}</span>
               </q-item-tile>
-              <q-item-side right>
-                  <q-item-tile avatar>
-                    <img :src="'assets/' +  account.image">
-                  </q-item-tile>
-              </q-item-side>
             </q-item>
         <q-item>
           <q-item-main label="Start" />

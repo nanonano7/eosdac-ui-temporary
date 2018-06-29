@@ -8,6 +8,16 @@ export const UNLOCK_ACCOUNT = (state, payload) => {
   state.keys = payload.keys
   state.pkeys = payload.pkeys
   state.unlocked = true
+  state.lastUnlock = Math.floor(Date.now() / 1000)
+}
+
+export const SET_AUTOLOCK = (state, payload) => {
+  if (payload.autolock === true) {
+    state.autolock = true
+  } else {
+    state.autolock = false
+  }
+  state.autolockIntervalSec = payload.autolockIntervalSec
 }
 
 export const LOCK_ACCOUNT = (state, payload) => {

@@ -86,7 +86,7 @@ export const transfer = ({
       }, (err) => {
         clearTimeout(timeout)
         if (err) {
-          reject(Error('failed'))
+          reject(err)
         }
       })
     }, (err) => {

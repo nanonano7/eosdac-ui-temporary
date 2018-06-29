@@ -80,10 +80,12 @@ export default {
       this.$store.dispatch('api/transfer', {to: this.account, amount: this.amount, token: 'EOSDAC', memo: this.memo}).then((res) => {
         this.getBalances()
         this.loading = false
-        console.log(res)
       }, (err) => {
         this.loading = false
-        console.log(err)
+        if (JSON.parse(err.message).error.name === 'account_query_exception') {
+          this.accountError = true
+          this.accountErrorLabel = 'Account does not exist'
+        }
       })
     },
     pickContact (contact) {
@@ -116,7 +118,7 @@ export default {
         this.loading = false
       }, (err) => {
         if (err) {
-          setTimeout(this.getBalances(), 3000)
+          console.log(err)
         }
       })
     }
@@ -135,6 +137,10 @@ export default {
         this.amountErrorLabel = ''
         this.checkTransfer()
       } else if (isNaN(val)) {
+        this.amountError = true
+        this.amountErrorLabel = 'Invalid amount'
+        this.checkTransfer()
+      } else if (this.eosdacBalance < val) {
         this.amountError = true
         this.amountErrorLabel = 'Invalid amount'
         this.checkTransfer()

@@ -6,11 +6,6 @@
           <q-card-main>
             <q-list no-border>
               <q-item>
-            <q-item-side>
-              <q-item-tile avatar>
-                <img src="~assets/profile-placeholder.png">
-              </q-item-tile>
-            </q-item-side>
             <q-item-main class="q-title" label="Name" />
           </q-item>
               <q-item multiline>

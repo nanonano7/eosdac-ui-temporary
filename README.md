@@ -28,6 +28,6 @@ npm install
 ```
 **5. Run dev server**
 ```
-quasar dev
+quasar dev -t ios
 ```
 [Quasar Docs](https://quasar-framework.org/guide/index.html)
